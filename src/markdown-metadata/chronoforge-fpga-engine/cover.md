@@ -1,0 +1,21 @@
+---
+repository: 'https://github.com/jakkarin-promsee/chronoforge-fpga-engine'
+description: 'A pure-hardware 2D game engine for the Basys3 FPGA — no CPU, no OS. Author games in Python, run them as event-driven Verilog at 640×480@60Hz.'
+topics:
+  - '2d-game-engine'
+  - 'artix-7'
+  - 'basys3'
+  - 'digital-design'
+  - 'fpga'
+  - 'game-engine'
+  - 'hardware-design'
+  - 'hdl'
+  - 'no-cpu'
+  - 'python'
+  - 'retro-gaming'
+  - 'rtl'
+  - 'verilog'
+  - 'vga'
+  - 'vivado'
+  - 'xilinx'
+---

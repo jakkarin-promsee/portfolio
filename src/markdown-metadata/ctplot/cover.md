@@ -1,0 +1,20 @@
+---
+repository: 'https://github.com/jakkarin-promsee/ctplot'
+description: 'A dependency-free C11 library for plotting tables and charts straight in your terminal — UTF-8 box-drawing, ANSI color, and 8× Braille rendering.'
+topics:
+  - 'ansi-colors'
+  - 'braille'
+  - 'c'
+  - 'c11'
+  - 'charts'
+  - 'cli'
+  - 'csv'
+  - 'data-visualization'
+  - 'histogram'
+  - 'library'
+  - 'plotting'
+  - 'scatter-plot'
+  - 'terminal'
+  - 'terminal-graphics'
+  - 'visualization'
+---
