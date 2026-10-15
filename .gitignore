@@ -1,0 +1,5 @@
+# Clone repos from github to local
+project/
+node_modules/
+dist/
+*.tsbuildinfo
