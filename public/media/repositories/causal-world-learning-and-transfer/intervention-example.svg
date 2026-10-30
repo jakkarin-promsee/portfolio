@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" role="img" aria-labelledby="title desc">
+  <title id="title">An intervention eliminates inconsistent Boolean rules</title>
+  <desc id="desc">Two candidate rules are tested with x zero equal to one and x one equal to zero. Observing y equal to one rules out AND and keeps OR.</desc>
+  <rect width="900" height="500" rx="18" fill="#0d1117"/>
+  <text x="40" y="56" fill="#e6edf3" font-family="Arial, sans-serif" font-size="28" font-weight="700">One action can separate two explanations</text>
+  <text x="40" y="88" fill="#8b949e" font-family="Arial, sans-serif" font-size="17">Illustrative one-rule example · not a measured experiment</text>
+
+  <rect x="40" y="116" width="390" height="110" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+  <text x="64" y="153" fill="#8b949e" font-family="Arial, sans-serif" font-size="17">POSSIBLE RULE A</text>
+  <text x="64" y="191" fill="#e6edf3" font-family="Arial, sans-serif" font-size="29" font-weight="700">y = x₀ AND x₁</text>
+
+  <rect x="470" y="116" width="390" height="110" rx="12" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+  <text x="494" y="153" fill="#8b949e" font-family="Arial, sans-serif" font-size="17">POSSIBLE RULE B</text>
+  <text x="494" y="191" fill="#e6edf3" font-family="Arial, sans-serif" font-size="29" font-weight="700">y = x₀ OR x₁</text>
+
+  <path d="M235 228 L235 253 M665 228 L665 253" stroke="#8b949e" stroke-width="3"/>
+  <rect x="195" y="255" width="510" height="86" rx="12" fill="#1f3a5f" stroke="#388bfd" stroke-width="2"/>
+  <text x="450" y="288" fill="#e6edf3" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="middle">INTERVENE: set x₀ = 1, x₁ = 0</text>
+  <text x="450" y="320" fill="#e6edf3" font-family="Arial, sans-serif" font-size="19" text-anchor="middle">Then observe y = 1</text>
+  <path d="M235 341 L235 364 M665 341 L665 364" stroke="#8b949e" stroke-width="3"/>
+
+  <rect x="40" y="365" width="390" height="80" rx="12" fill="#3d2027" stroke="#f85149" stroke-width="2"/>
+  <text x="64" y="399" fill="#ffa198" font-family="Arial, sans-serif" font-size="20" font-weight="700">Predicts y = 0</text>
+  <text x="64" y="428" fill="#e6edf3" font-family="Arial, sans-serif" font-size="18">Eliminate this rule</text>
+
+  <rect x="470" y="365" width="390" height="80" rx="12" fill="#173b2e" stroke="#3fb950" stroke-width="2"/>
+  <text x="494" y="399" fill="#7ee787" font-family="Arial, sans-serif" font-size="20" font-weight="700">Predicts y = 1</text>
+  <text x="494" y="428" fill="#e6edf3" font-family="Arial, sans-serif" font-size="18">Keep this rule for now</text>
+
+  <text x="450" y="480" fill="#8b949e" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">The oracle applies this consistency check across every candidate world.</text>
+</svg>

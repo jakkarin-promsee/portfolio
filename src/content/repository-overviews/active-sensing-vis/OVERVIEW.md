@@ -1,0 +1,15 @@
+## A visual glimpse loop tested whether latent state could use what it had just seen.
+
+While building [my-harness](/repositories/my-harness), I spent time thinking about what a transformer keeps in its context and internal state. I then studied associative memory and visual transformers. I suspected that many image tasks could be answered from a static view without forcing a model to connect what it saw in one place to what it should inspect next. Language had made those relationships feel harder to avoid. That was my motivation, not a claim that all image models work this way. I wanted to build a visual task and model where a carried latent state had a necessary job: use earlier evidence to choose the next high-resolution glimpse.
+
+## Making the task ask for another look
+
+The first task asked the model to find one object, then look to a related object. The reader could recognize an object when a glimpse landed on it, but the target was beyond the useful reach of the location gradient. The task made a second look necessary while removing the training signal that could teach the model where to move. I replaced that long hop with **more candidate objects than the model had glimpses**. A coarse map could indicate where candidates were, but should reveal little about their identities.
+
+Pointing eventually became learnable when I trained the location objective first, then moved to the answer task. That was a genuine result about choosing *where* to look. It was not yet evidence that the model read the chosen object well or used earlier looks as memory. More seeds withdrew an early coverage win; a same-object comparison showed that an apparent accuracy gain partly came from selecting easier objects. The reading path remained weak.
+
+## The controls that ended this route
+
+Adding a carried state improved pointing, which initially looked like the latent memory I wanted. But a state borrowed from another image worked about as well as the real one. A policy blind to its own glimpse content even pointed better. In this setup the state could act as an attention register or plan without using image-specific evidence from previous looks to revise the next decision. I could no longer claim that the tested loop had learned the intended sequential reasoning.
+
+To make another visual test credible, I would need to redesign and synthesize the task data, stage the pretraining, and change the model so previous observations genuinely matter. Much of the work had already become repeated data cleaning, diagnosing what each model actually learned, and designing the next repair. There was no clear number of repairs that would bring me closer to the larger question of intelligence, so I closed **this dataset-and-model route** as a scoped negative result. That decision moved my attention from *where* a latent state sits to **what an agent does to gather evidence and learn from it**. [Causal World Learning and Transfer](/repositories/causal-world-learning-and-transfer) is the next attempt to make that question testable.
