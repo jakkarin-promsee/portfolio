@@ -1,27 +1,18 @@
-// Portfolio copy is authored here. The profile clone is reference material,
-// not a generated source for the site's Overview page.
+// Sidebar identity and contact data. The profile README and its extension
+// are authored separately from the verbatim metadata snapshot.
 export const profile = {
   name: "Jakkarin Promsee",
   handle: "jakkarin-promsee",
   avatar: "/avatar.png",
-  bio: "Computer Engineering @ KMUTT. Building a bio-inspired analog processor that learns on-chip. Neuromorphic computing · analog compute · ML from first principles.",
-  location: "Bangkok, Thailand",
+  bio: "Computer Engineering student at KMUTT researching how agents can learn the rules of unfamiliar worlds from limited experience. I use mathematical models, exact inference, and controlled experiments to study that question.",
   email: "jakkarin.promsee@gmail.com",
   githubUrl: "https://github.com/jakkarin-promsee",
+  linkedinUrl: "https://www.linkedin.com/in/jakkarin-promsee",
+  facebookUrl: "https://www.facebook.com/jakkarin.promsee",
   focusAreas: [
-    "Neuromorphic computing",
-    "FPGA & hardware",
-    "Machine learning",
-    "Full-stack products",
+    "Causal learning",
+    "Exact inference",
+    "Learning policies",
+    "Knowledge transfer",
   ],
-  overview: {
-    eyebrow: "HELLO, I'M NIGHT 👋",
-    heading: "Building to understand",
-    headingEmphasis: "how things really work.",
-    paragraphs: [
-      "I’m Jakkarin Promsee, a Computer Engineering student at KMUTT. My work moves between machine learning, analog circuits, FPGA hardware, systems programming, and products people can use.",
-      "I start from intuition, build a mechanism, and test it against reality. Right now I’m exploring how learning can happen directly in physical hardware.",
-    ],
-    currentInterest: "Continual learning, compute-in-memory, and the boundary between algorithms and physical systems.",
-  },
 } as const;

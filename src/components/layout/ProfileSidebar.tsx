@@ -1,4 +1,4 @@
-import { Link2, Mail, MapPin } from "lucide-react";
+import { Facebook, Github, Linkedin, Mail } from "lucide-react";
 import { profile } from "../../data/profile";
 
 export function ProfileSidebar() {
@@ -17,22 +17,27 @@ export function ProfileSidebar() {
       </a>
       <div className="profile-meta">
         <p>
-          <MapPin size={16} /> {profile.location}
+          <Github size={16} aria-hidden="true" />
+          <a href={profile.githubUrl} target="_blank" rel="noopener noreferrer">
+            github.com/jakkarin-promsee
+          </a>
         </p>
         <p>
-          <Mail size={16} />
+          <Mail size={16} aria-hidden="true" />
           <a href={`mailto:${profile.email}`}>
             {profile.email}
           </a>
         </p>
         <p>
-          <Link2 size={16} />
-          <a
-            href={profile.githubUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {profile.githubUrl.replace(/^https?:\/\//, "")}
+          <Linkedin size={16} aria-hidden="true" />
+          <a href={profile.linkedinUrl} target="_blank" rel="noopener noreferrer">
+            linkedin.com/in/jakkarin-promsee
+          </a>
+        </p>
+        <p>
+          <Facebook size={16} aria-hidden="true" />
+          <a href={profile.facebookUrl} target="_blank" rel="noopener noreferrer">
+            facebook.com/jakkarin.promsee
           </a>
         </p>
       </div>
