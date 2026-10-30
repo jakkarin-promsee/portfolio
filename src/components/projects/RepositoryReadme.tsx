@@ -12,16 +12,29 @@ const readmeFiles = import.meta.glob("../../markdown-metadata/*/README.md", {
   import: "default",
 }) as Record<string, () => Promise<string>>;
 
-function resolveRepositoryUrl(repositoryUrl: string, path: string, raw: boolean) {
+function resolveRepositoryUrl(project: Project, path: string, raw: boolean) {
   if (/^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(path)) return path;
 
   const [, relativePath, suffix] = path.match(/^([^?#]*)(.*)$/) ?? ["", path, ""];
+  const siblingRole = relativePath.match(/^\.\.\/(client|server)\/README\.md$/i)?.[1];
+  if (!raw && siblingRole) {
+    const sibling = project.related?.find(({ url }) => url.endsWith(`-${siblingRole}`));
+    if (sibling) return `/repositories/${new URL(sibling.url).pathname.split("/").pop()}${suffix}`;
+  }
   const normalized = relativePath.replace(/^(?:\.\/|\/)+/, "");
-  const repositoryPath = new URL(repositoryUrl).pathname.replace(/^\/+|\/+$/g, "");
+  const repositoryPath = new URL(project.repositoryUrl).pathname.replace(/^\/+|\/+$/g, "");
+  const sourceRef = project.sourceCommit ?? "HEAD";
   const root = raw
-    ? `https://raw.githubusercontent.com/${repositoryPath}/HEAD/`
-    : `${repositoryUrl}/blob/HEAD/`;
-  return `${root}${normalized.split("/").map(encodeURIComponent).join("/")}${suffix}`;
+    ? `https://raw.githubusercontent.com/${repositoryPath}/${sourceRef}/`
+    : `${project.repositoryUrl}/blob/${sourceRef}/`;
+  const encodedPath = normalized.split("/").map((segment) => {
+    try {
+      return encodeURIComponent(decodeURIComponent(segment));
+    } catch {
+      return encodeURIComponent(segment);
+    }
+  }).join("/");
+  return `${root}${encodedPath}${suffix}`;
 }
 
 export function RepositoryReadme({ project }: { project: Project }) {
@@ -55,10 +68,10 @@ export function RepositoryReadme({ project }: { project: Project }) {
             rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeSlug]}
             components={{
               a: ({ href, children, ...props }) => (
-                <a href={resolveRepositoryUrl(project.repositoryUrl, href ?? "", false)} {...props}>{children}</a>
+                <a href={resolveRepositoryUrl(project, href ?? "", false)} {...props}>{children}</a>
               ),
               img: ({ src, alt, ...props }) => (
-                <img src={resolveRepositoryUrl(project.repositoryUrl, src ?? "", true)} alt={alt ?? ""} loading="lazy" {...props} />
+                <img src={resolveRepositoryUrl(project, src ?? "", true)} alt={alt ?? ""} loading="lazy" {...props} />
               ),
             }}
           >

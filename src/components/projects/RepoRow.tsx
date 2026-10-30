@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { FileText } from "lucide-react";
 import type { Project } from "../../data/projects";
+import { githubRepositoryAbout } from "../../data/githubRepositoryAbout";
 
 export function RepoRow({ project }: { project: Project }) {
+  const { topics } = githubRepositoryAbout(project.slug);
   return (
     <article className="repo-row">
       <div className="repo-row-main">
@@ -12,20 +14,20 @@ export function RepoRow({ project }: { project: Project }) {
         </div>
         <p className="repo-description">{project.description}</p>
         <div className="topics">
-          {project.topics.map((topic) => (
+          {topics.map((topic) => (
             <span key={topic}>{topic}</span>
           ))}
         </div>
         <div className="repo-meta">
-          <span>
+          {project.language && <span>
             <i className="language-dot" style={{ background: project.color }} />
             {project.language}
-          </span>
-          <span>
+          </span>}
+          {project.license && <span>
             <FileText size={14} />
             {project.license}
-          </span>
-          <span>Updated in {project.year}</span>
+          </span>}
+          {project.sourceSnapshot && <span>Source snapshot: {project.sourceSnapshot}</span>}
         </div>
       </div>
     </article>
