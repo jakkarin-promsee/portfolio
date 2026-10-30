@@ -3,3 +3,9 @@ project/
 node_modules/
 dist/
 *.tsbuildinfo
+.vercel/
+
+# Private reflection and an unreviewed working narrative are source notes,
+# not public portfolio content.
+docs/myself/
+src/markdown-metadata/my-journey.md
