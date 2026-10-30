@@ -92,6 +92,6 @@ All 28 detail pages have authored `OVERVIEW.md` documents. The unfinished Causal
 
 ## Deploy on Vercel
 
-`vercel.json` pins the Vite framework, `npm run build`, and the `dist/` output directory. Every public route has its own `index.html` under `dist/`, so direct links serve the pre-rendered page. Set the Vercel project root to this repository root.
+`vercel.json` pins the Vite framework, `npm run build`, and the `dist/` output directory. Every public route has its own `index.html` under `dist/`; Vercel redirects extensionless route URLs to their trailing-slash form so direct links serve the pre-rendered page. Set the Vercel project root to this repository root.
 
 No custom Vercel environment variables are required by the current site. GitHub About data and repository READMEs are bundled from checked metadata at build time; the browser does not need a GitHub token or backend API. Do not add credentials to `VITE_*` variables, since Vite exposes those values in the client bundle. Local `.vercel/` linking state and the private reflection notes in `docs/myself/` are ignored by Git.
