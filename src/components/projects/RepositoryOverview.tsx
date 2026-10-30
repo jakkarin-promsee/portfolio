@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { BookOpen, ExternalLink } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -8,7 +7,8 @@ import { repositoryOverviewMedia, type OverviewMedia } from "../../data/reposito
 const overviewFiles = import.meta.glob("../../content/repository-overviews/*/OVERVIEW.md", {
   query: "?raw",
   import: "default",
-}) as Record<string, () => Promise<string>>;
+  eager: true,
+}) as Record<string, string>;
 
 const mediaMarker = "<!-- overview-media -->";
 
@@ -61,21 +61,8 @@ function MediaFigure({ project, media }: { project: Project; media: OverviewMedi
 }
 
 export function RepositoryOverview({ project }: { project: Project }) {
-  const [content, setContent] = useState<string | null>(null);
   const overviewFile = `../../content/${project.overviewPath}`;
-
-  useEffect(() => {
-    let current = true;
-    setContent(null);
-    const read = overviewFiles[overviewFile];
-    if (read) {
-      read()
-        .then((markdown) => { if (current) setContent(markdown); })
-        .catch(() => { if (current) setContent("OVERVIEW.md could not be loaded."); });
-    }
-    return () => { current = false; };
-  }, [overviewFile]);
-
+  const content = overviewFiles[overviewFile];
   const [beforeMedia, afterMedia] = (content ?? "").split(mediaMarker);
   const media = repositoryOverviewMedia[project.slug] ?? [];
 
@@ -86,8 +73,8 @@ export function RepositoryOverview({ project }: { project: Project }) {
         <strong>OVERVIEW.md</strong>
       </div>
       <div className="markdown-body repository-overview-body">
-        {content === null ? (
-          <p>{overviewFiles[overviewFile] ? "Loading overview…" : "OVERVIEW.md is not available for this project yet."}</p>
+        {!content ? (
+          <p>OVERVIEW.md is not available for this project yet.</p>
         ) : (
           <>
             <div className="repository-overview-lead"><ReactMarkdown remarkPlugins={[remarkGfm]}>{beforeMedia}</ReactMarkdown></div>

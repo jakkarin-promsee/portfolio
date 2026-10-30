@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir node_modules/.cache/portfolio-ssr && node scripts/prerender.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "sync:metadata": "node scripts/sync-markdown-metadata.mjs",
     "check:metadata": "node scripts/sync-markdown-metadata.mjs --check"

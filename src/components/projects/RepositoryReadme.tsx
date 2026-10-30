@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -10,7 +9,18 @@ import type { Project } from "../../data/projects";
 const readmeFiles = import.meta.glob("../../markdown-metadata/*/README.md", {
   query: "?raw",
   import: "default",
-}) as Record<string, () => Promise<string>>;
+  eager: true,
+}) as Record<string, string>;
+
+// GFM treats pipes inside table cells as separators, even inside inline code.
+// Escape them for rendering while keeping the README snapshot byte-for-byte intact.
+function prepareReadmeForDisplay(markdown: string) {
+  return markdown.replace(/^\s*\|[^\r\n]*$/gm, (row) =>
+    row.replace(/(`+)(.*?)\1/g, (code) =>
+      code.replace(/(?<!\\)\|/g, "\\|"),
+    ),
+  );
+}
 
 function resolveRepositoryUrl(project: Project, path: string, raw: boolean) {
   if (/^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(path)) return path;
@@ -38,20 +48,8 @@ function resolveRepositoryUrl(project: Project, path: string, raw: boolean) {
 }
 
 export function RepositoryReadme({ project }: { project: Project }) {
-  const [content, setContent] = useState<string | null>(null);
   const readmeFile = `../../${project.readmePath}`;
-
-  useEffect(() => {
-    let current = true;
-    setContent(null);
-    const read = readmeFiles[readmeFile];
-    if (read) {
-      read()
-        .then((markdown) => { if (current) setContent(markdown); })
-        .catch(() => { if (current) setContent("README.md could not be loaded."); });
-    }
-    return () => { current = false; };
-  }, [readmeFile]);
+  const content = readmeFiles[readmeFile];
 
   return (
     <section className="readme-box detail-readme repository-readme" id="readme">
@@ -60,8 +58,8 @@ export function RepositoryReadme({ project }: { project: Project }) {
         <strong>README.md</strong>
       </div>
       <div className="markdown-body rendered-markdown">
-        {content === null ? (
-          <p>{readmeFiles[readmeFile] ? "Loading README…" : "README.md is not available for this project yet."}</p>
+        {!content ? (
+          <p>README.md is not available for this project yet.</p>
         ) : (
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
@@ -75,7 +73,7 @@ export function RepositoryReadme({ project }: { project: Project }) {
               ),
             }}
           >
-            {content}
+            {prepareReadmeForDisplay(content)}
           </ReactMarkdown>
         )}
       </div>

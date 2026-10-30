@@ -4,7 +4,7 @@
 
 A GitHub-inspired portfolio that presents repositories as projects to explore. The familiar profile and repository layout stays, while project overviews and the original READMEs carry the explanation. Code browsing, commit history, and activity graphs are outside this site's intended experience.
 
-The site is a React + TypeScript single-page app built with Vite. The catalog covers all 28 complete repositories; the eight incomplete repositories remain inventory-only.
+The site is a React + TypeScript app built with Vite. Its 31 public routes are pre-rendered to static HTML during the production build, then hydrated by React for interaction. The catalog covers all 28 complete repositories; the eight incomplete repositories remain inventory-only.
 
 ## Run locally
 
@@ -13,7 +13,7 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite. `npm run build` runs TypeScript checks and creates a production bundle in `dist/`.
+Open the local URL printed by Vite. `npm run build` runs TypeScript checks, builds the browser and server bundles, and writes HTML for the home page, journey, catalog, and all 28 repository pages into `dist/`. Use `npm run preview` to inspect the production output locally.
 
 ## Project hierarchy
 
@@ -56,7 +56,7 @@ flowchart LR
   P -->|npm run sync:metadata: README + source.md| M
   M -->|manual review| D[src/data/projects.ts + projectsAdditional.ts: 28 records]
   D --> W[Pages and components]
-  D -->|readmePath| R[Lazy README renderer]
+  D -->|readmePath| R[README renderer]
   M --> R
   R --> W
   F[Authored profile README and sidebar data] --> W
@@ -77,7 +77,7 @@ The clones are the primary reference and remain unchanged by these scripts. `src
 
 The sync script and `check:metadata` reject a clone README with uncommitted changes. Both scripts use only the local clones; only the Python audit's `--remote` mode contacts GitHub.
 
-To add a project to the website, inspect its metadata and clone, add a typed catalog record with its real URL, README path, and authored overview path, then write its `OVERVIEW.md` under `src/content/repository-overviews/`. The README renderer loads the referenced Markdown lazily and supports GitHub-flavored Markdown, sanitized inline HTML, and relative GitHub links/images pinned to the recorded source commit.
+To add a project to the website, inspect its metadata and clone, add a typed catalog record with its real URL, README path, and authored overview path, then write its `OVERVIEW.md` under `src/content/repository-overviews/`. The build pre-renders that route with its README and overview. The README renderer supports GitHub-flavored Markdown, sanitized inline HTML, and relative GitHub links/images pinned to the recorded source commit.
 
 ## Frontend structure
 
@@ -92,6 +92,6 @@ All 28 detail pages have authored `OVERVIEW.md` documents. The unfinished Causal
 
 ## Deploy on Vercel
 
-`vercel.json` pins the Vite framework, `npm run build`, the `dist/` output directory, and a fallback rewrite to `index.html`. The rewrite lets direct links to `/journey` and `/repositories/:slug` load through React Router. Set the Vercel project root to this repository root.
+`vercel.json` pins the Vite framework, `npm run build`, and the `dist/` output directory. Every public route has its own `index.html` under `dist/`, so direct links serve the pre-rendered page. Set the Vercel project root to this repository root.
 
 No custom Vercel environment variables are required by the current site. GitHub About data and repository READMEs are bundled from checked metadata at build time; the browser does not need a GitHub token or backend API. Do not add credentials to `VITE_*` variables, since Vite exposes those values in the client bundle. Local `.vercel/` linking state and the private reflection notes in `docs/myself/` are ignored by Git.

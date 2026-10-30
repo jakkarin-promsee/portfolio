@@ -1,15 +1,11 @@
-import { lazy, Suspense } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, BookOpen, ExternalLink, Github, Globe2, Link2 } from "lucide-react";
 import { TopicList } from "../components/projects/TopicList";
 import { RepositoryOverview } from "../components/projects/RepositoryOverview";
+import { RepositoryReadme } from "../components/projects/RepositoryReadme";
 import { githubRepositoryAbout } from "../data/githubRepositoryAbout";
 import { projects } from "../data/projects";
 import { profile } from "../data/profile";
-
-const RepositoryReadme = lazy(() =>
-  import("../components/projects/RepositoryReadme").then((module) => ({ default: module.RepositoryReadme })),
-);
 
 export function RepositoryDetailPage() {
   const { slug } = useParams();
@@ -100,9 +96,7 @@ export function RepositoryDetailPage() {
             </a>
           </aside>
         </div>
-        <Suspense fallback={<div className="readme-box repository-readme readme-loading">Loading README…</div>}>
-          <RepositoryReadme project={project} />
-        </Suspense>
+        <RepositoryReadme project={project} />
       </main>
     </>
   );
