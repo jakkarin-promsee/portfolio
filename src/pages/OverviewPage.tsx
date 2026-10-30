@@ -14,6 +14,7 @@ import type { JourneyRepository } from "../data/journey";
 import profileReadme from "../../docs/profile-readme-draft.md?raw";
 import extendedReadme from "../content/profile-readme-extend.md?raw";
 
+const portfolioOrigin = "https://jakkarin-promsee.vercel.app";
 const catalogSlugs = new Set(projects.map((project) => project.slug));
 
 function ProfileMarkdown({ children }: { children: string }) {
@@ -23,9 +24,13 @@ function ProfileMarkdown({ children }: { children: string }) {
       rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeSlug]}
       components={{
         a: ({ href, children: linkChildren, ...props }) => {
-          const destination = href === "PORTFOLIO_URL" ? "#readme-extend" : href ?? "#";
+          const destination = href === `${portfolioOrigin}/` ? "#readme-extend" : href ?? "#";
           if (destination.startsWith("/") && !destination.startsWith("//")) {
             return <Link to={destination}>{linkChildren}</Link>;
+          }
+          if (destination.startsWith(`${portfolioOrigin}/repositories/`)) {
+            const url = new URL(destination);
+            return <Link to={`${url.pathname}${url.search}${url.hash}`}>{linkChildren}</Link>;
           }
           return <a href={destination} {...props}>{linkChildren}</a>;
         },
